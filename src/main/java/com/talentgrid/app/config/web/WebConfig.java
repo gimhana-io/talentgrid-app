@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void configureApiVersioning(ApiVersionConfigurer configurer) {
         
-        configurer.useMediaTypeParameter(MediaType.parseMediaType("application/vnd.talentgrid+json"), "v").addSupportedVersions("1.0","2.0","3.0").setDefaultVersion(("1.0"));
+        configurer.useMediaTypeParameter(MediaType.parseMediaType("application/vnd.talentgrid+json"), "v").addSupportedVersions("1.0","2.0","3.0").setDefaultVersion("1.0");
 
     }
 
