@@ -11,7 +11,7 @@ public class CompanyController {
 
     @GetMapping(version = "1.0")
     public ResponseEntity<String> getCompany() {
-        return ResponseEntity.ok("Company details");
+        return ResponseEntity.ok("Updated Company details");
     }
     
 }
