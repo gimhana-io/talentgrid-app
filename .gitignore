@@ -34,3 +34,6 @@ build/
 
 ### Rest Client ###
 /request.rest
+
+### h2 File ###
+/data
