@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "COMPANIES")
+@Getter @Setter
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,4 +58,5 @@ public class Company {
 
     @Column(name = "UPDATED_BY", length = 20)
     private String updatedBy;
+    
 }

@@ -1,17 +1,29 @@
 package com.talentgrid.app.company.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.talentgrid.app.entity.Company;
+import com.talentgrid.app.service.ICompanyService;
+
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/companies")
+@RequiredArgsConstructor
 public class CompanyController {
 
+    private final ICompanyService companyService;
+
+  
     @GetMapping(version = "1.0")
-    public ResponseEntity<String> getCompany() {
-        return ResponseEntity.ok("Updated Company details");
+    public ResponseEntity<List<Company>> getCompany() {
+        List<Company> companies = companyService.getAllCompanies();
+        return ResponseEntity.ok(companies);
     }
     
 }
