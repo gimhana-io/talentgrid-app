@@ -2,8 +2,8 @@ package com.talentgrid.app.service;
 
 import java.util.List;
 
-import com.talentgrid.app.entity.Company;
+import com.talentgrid.app.dto.CompanyDto;
 
 public interface ICompanyService {
-    List<Company> getAllCompanies();
+    List<CompanyDto> getAllCompanies();
 }

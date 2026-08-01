@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.talentgrid.app.dto.CompanyDto;
 import com.talentgrid.app.entity.Company;
 import com.talentgrid.app.service.ICompanyService;
 
@@ -21,8 +22,8 @@ public class CompanyController {
 
   
     @GetMapping(version = "1.0")
-    public ResponseEntity<List<Company>> getCompany() {
-        List<Company> companies = companyService.getAllCompanies();
+    public ResponseEntity<List<CompanyDto>> getCompany() {
+        List<CompanyDto> companies = companyService.getAllCompanies();
         return ResponseEntity.ok(companies);
     }
     
