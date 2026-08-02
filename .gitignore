@@ -37,3 +37,6 @@ build/
 
 ### h2 File ###
 /data
+
+### Mac ###
+/job-portal-ui
