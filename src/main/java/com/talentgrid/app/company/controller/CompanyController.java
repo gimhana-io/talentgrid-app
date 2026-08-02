@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.talentgrid.app.dto.CompanyDto;
-import com.talentgrid.app.entity.Company;
 import com.talentgrid.app.service.ICompanyService;
 
 import lombok.RequiredArgsConstructor;
