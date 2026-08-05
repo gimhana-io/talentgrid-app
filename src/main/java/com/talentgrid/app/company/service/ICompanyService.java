@@ -1,4 +1,4 @@
-package com.talentgrid.app.service;
+package com.talentgrid.app.company.service;
 
 import java.util.List;
 

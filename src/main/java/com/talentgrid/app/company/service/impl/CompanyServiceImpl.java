@@ -1,13 +1,13 @@
-package com.talentgrid.app.service.impl;
+package com.talentgrid.app.company.service.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.talentgrid.app.company.service.ICompanyService;
 import com.talentgrid.app.dto.CompanyDto;
 import com.talentgrid.app.entity.Company;
 import com.talentgrid.app.repository.CompanyRepository;
-import com.talentgrid.app.service.ICompanyService;
 
 import lombok.RequiredArgsConstructor;
 
