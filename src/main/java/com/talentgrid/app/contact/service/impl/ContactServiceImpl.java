@@ -10,11 +10,14 @@ import com.talentgrid.app.dto.ContactRequestDto;
 import com.talentgrid.app.entity.Contact;
 import com.talentgrid.app.repository.ContactRepository;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Service
+@RequiredArgsConstructor
 public class ContactServiceImpl implements IContactService {
 
-    private final ContactRepository contactRepository = null;
+    private final ContactRepository contactRepository;
 
     @Override
     public boolean saveContact(ContactRequestDto contactRequestDto) {
@@ -32,6 +35,8 @@ public class ContactServiceImpl implements IContactService {
 
         contact.setCreatedAt(Instant.now());
         contact.setCreatedBy("System");
+        contact.setStatus("NEW");
+        
         return contact;
     }
 
