@@ -1,16 +1,21 @@
 package com.talentgrid.app.entity;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Table(name = "COMPANIES")
 @Getter @Setter
-public class Company {
+public class Company extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID",nullable = false)
@@ -47,16 +52,5 @@ public class Company {
     @Column(name = "WEBSITE", length = 500)
     private String website;
 
-    @Column(name = "CREATED_AT", nullable = false)
-    private Instant createdAt;
-
-    @Column(name = "CREATED_BY", nullable = false, length = 20)
-    private String createdBy;
-
-    @Column(name = "UPDATED_AT")
-    private Instant updatedAt;
-
-    @Column(name = "UPDATED_BY", length = 20)
-    private String updatedBy;
     
 }
