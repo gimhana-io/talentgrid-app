@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.talentgrid.app.contact.service.IContactService;
 import com.talentgrid.app.dto.ContactRequestDto;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 
@@ -21,7 +22,7 @@ public class ContactController {
     private final IContactService contactService;
 
     @PostMapping(version="1.0")
-    public ResponseEntity<String> saveContadctMsg(@RequestBody ContactRequestDto contactRequestDto) {
+    public ResponseEntity<String> saveContadctMsg(@RequestBody @Valid ContactRequestDto contactRequestDto) {
         boolean isSaved = contactService.saveContact(contactRequestDto);
         if (isSaved) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Contact message saved successfully.");
