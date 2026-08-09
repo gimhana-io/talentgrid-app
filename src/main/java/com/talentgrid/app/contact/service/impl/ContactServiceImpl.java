@@ -1,7 +1,5 @@
 package com.talentgrid.app.contact.service.impl;
 
-import java.time.Instant;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +31,9 @@ public class ContactServiceImpl implements IContactService {
         Contact contact = new Contact();
         BeanUtils.copyProperties(contactRequestDto, contact);
 
-        contact.setCreatedAt(Instant.now());
-        contact.setCreatedBy("System");
+        // contact.setCreatedAt(Instant.now());
+        // contact.setCreatedBy("System");
+        
         contact.setStatus("NEW");
         
         return contact;
