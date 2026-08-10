@@ -20,7 +20,7 @@ public class CompanyController {
     private final ICompanyService companyService;
 
   
-    @GetMapping(version = "1.0")
+    @GetMapping(path="/public", version = "1.0")
     public ResponseEntity<List<CompanyDto>> getAllCompanies() {
         List<CompanyDto> companies = companyService.getAllCompanies();
         return ResponseEntity.ok(companies);

@@ -7,16 +7,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class TalentgridSecurityConfig {
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) 
+    SecurityFilterChain customSecurityfilterChain(HttpSecurity http) 
     {
-        return http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated())
-        .formLogin(withDefaults())
+        return http
+        .csrf((csrfConfig) -> csrfConfig.disable())
+        .authorizeHttpRequests((requests) -> 
+            requests.requestMatchers(RegexRequestMatcher.regexMatcher(".*public$")).permitAll())
+        .formLogin((flc) -> flc.disable())
         .httpBasic(withDefaults())
         .build();
     }

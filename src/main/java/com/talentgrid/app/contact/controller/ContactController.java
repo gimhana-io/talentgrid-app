@@ -26,7 +26,7 @@ public class ContactController {
 
     private final IContactService contactService;
 
-    @PostMapping(version="1.0")
+    @PostMapping(path="/public" ,version="1.0")
     public ResponseEntity<String> saveContadctMsg(@RequestBody @Valid ContactRequestDto contactRequestDto) {
         boolean isSaved = contactService.saveContact(contactRequestDto);
         if (isSaved) {
@@ -36,7 +36,7 @@ public class ContactController {
         }
     }
 
-    @GetMapping(version="1.0")
+    @GetMapping(path="/public", version="1.0")
     public ResponseEntity<String> fetchOpenContacts(@RequestParam 
         @Validated 
         @Size(min = 4, message = "Status length should be of minium 4 characters")
