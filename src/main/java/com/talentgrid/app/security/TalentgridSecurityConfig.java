@@ -9,6 +9,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -17,9 +20,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.talentgrid.app.security.filter.JwtTokenValidatorFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,6 +52,7 @@ public class TalentgridSecurityConfig {
             securedPaths.forEach(path -> requests.requestMatchers(path).authenticated());
             requests.anyRequest().denyAll();
         })
+        .addFilterBefore(new JwtTokenValidatorFilter(publicPaths), BasicAuthenticationFilter.class)
         .formLogin((flc) -> flc.disable())
         .httpBasic(withDefaults())
         .build();
@@ -68,12 +75,17 @@ public class TalentgridSecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(){
         var user1 = User.builder().username("gimhana").password(passwordEncoder().encode("gimhana123")).roles("USER").build();
-        System.out.println(user1);
 
         var user2 = User.builder().username("admin").password(passwordEncoder().encode("Admin@123")).roles("ADMIN").build();
-        System.out.println(user2);
 
         return new InMemoryUserDetailsManager(user1, user2);
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(){
+        var authenticationProvider = new DaoAuthenticationProvider(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return new ProviderManager(authenticationProvider);
     }
 
     @Bean
