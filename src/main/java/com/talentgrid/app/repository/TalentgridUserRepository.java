@@ -9,5 +9,7 @@ import com.talentgrid.app.entity.TalentgridUser;
 public interface TalentgridUserRepository extends JpaRepository<TalentgridUser, Long>{
 
     Optional<TalentgridUser> readUserByEmailOrMobileNumber(String email, String mobileNumber);
+
+    Optional<TalentgridUser> findTalentgridUserByEmail(String email);
     
 }
