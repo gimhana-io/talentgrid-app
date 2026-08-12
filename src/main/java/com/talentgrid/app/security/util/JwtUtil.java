@@ -8,10 +8,10 @@ import javax.crypto.SecretKey;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import com.talentgrid.app.constants.ApplicationConstants;
+import com.talentgrid.app.entity.TalentgridUser;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -28,9 +28,11 @@ public class JwtUtil {
         String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY,
                 ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        var fetchedUser = (User) authentication.getPrincipal();
+        var fetchedUser = (TalentgridUser) authentication.getPrincipal();
         jwtToken = Jwts.builder().issuer("Talent Grid").subject("JWT Token")
-                .claim("username", fetchedUser.getUsername())
+                .claim("name", fetchedUser.getName())
+                .claim("email", fetchedUser.getEmail())
+                .claim("mobileNumber", fetchedUser.getMobileNumber())
                 .claim("roles", authentication.getAuthorities().stream().map(
                         GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
                 .issuedAt(new java.util.Date())

@@ -58,6 +58,11 @@ public class AuthController {
 
             var userDto = new UserDto();
 
+            var loggedInUser = (TalentgridUser) resultAuthentication.getPrincipal();
+            BeanUtils.copyProperties(loggedInUser, userDto);
+            userDto.setRole(loggedInUser.getRole().getName());
+            userDto.setUserId(loggedInUser.getId());
+
             return ResponseEntity.status(HttpStatus.OK).body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), userDto, jwtToken));
        
         }catch(BadCredentialsException ex){
