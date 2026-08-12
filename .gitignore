@@ -38,5 +38,8 @@ build/
 ### h2 File ###
 /data
 
-### Mac ###
+### Ignore ui ###
 /job-portal-ui
+
+### logs ###
+/logs
