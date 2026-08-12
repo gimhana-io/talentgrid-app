@@ -58,3 +58,19 @@ INSERT INTO companies (name, logo, industry, size, rating, locations, founded, d
 INSERT INTO companies (name, logo, industry, size, rating, locations, founded, description, employees, website, created_by) VALUES ('Canva', '/logos/canva.png', 'Technology', 'Medium', 4.6, 'Sydney,San Francisco,London', 2012, 'Canva is a leading technology company founded in 2012. We''re committed to innovation and creating exceptional experiences for our customers and employees.', 4000, 'https://www.canva.com', 'SYSTEM');
 
 INSERT INTO companies (name, logo, industry, size, rating, locations, founded, description, employees, website, created_by) VALUES ('Figma', '/logos/figma.png', 'Technology', 'Medium', 4.7, 'San Francisco,New York,London', 2012, 'Figma is a leading technology company founded in 2012. We''re committed to innovation and creating exceptional experiences for our customers and employees.', 1000, 'https://www.figma.com', 'SYSTEM');
+
+
+
+
+
+
+
+
+INSERT INTO roles (name, created_at, created_by)
+VALUES ('ROLE_JOB_SEEKER', CURRENT_TIMESTAMP, 'DBA');
+
+INSERT INTO roles (name, created_at, created_by)
+VALUES ('ROLE_EMPLOYER', CURRENT_TIMESTAMP, 'DBA');
+
+INSERT INTO roles (name, created_at, created_by)
+VALUES ('ROLE_ADMIN', CURRENT_TIMESTAMP, 'DBA');
