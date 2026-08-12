@@ -1,9 +1,5 @@
 package com.talentgrid.app.auth;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
-import org.springframework.security.authentication.password.CompromisedPasswordDecision;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +44,6 @@ public class AuthController {
 
     @PostMapping(value="/login/public", version="1.0")
     public ResponseEntity<LoginResponseDto> apiLogin(@RequestBody LoginRequestDto loginRequestDto){
-        // System.out.print(loginRequestDto.username()+loginRequestDto.password());
        
         try{
             var resultAuthentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.username(), loginRequestDto.password()));
@@ -85,28 +79,7 @@ public class AuthController {
     @PostMapping(value="/register/public", version="1.0")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequestDto registerRequestDto){
 
-        CompromisedPasswordDecision decision = compromisedPasswordChecker
-                .check(registerRequestDto.password());
-        if (decision.isCompromised()) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("password", "Choose a strong password"));
-        }
-
-
-        Optional<TalentgridUser> existingTalentGridUser = talentGridUserRepository.readUserByEmailOrMobileNumber(registerRequestDto.email(), registerRequestDto.mobileNumber());
-
-        if (existingTalentGridUser.isPresent()) {
-            Map<String, String> errors = new HashMap<>();
-            TalentgridUser jobPortalUser = existingTalentGridUser.get();
-            if (jobPortalUser.getEmail().equalsIgnoreCase(registerRequestDto.email())) {
-                errors.put("email", "Email is already registered");
-            }
-            if (jobPortalUser.getMobileNumber().equals(registerRequestDto.mobileNumber())) {
-                errors.put("mobileNumber", "Mobile number is already registered");
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
-        }
+      
 
         TalentgridUser talentGridUser = new TalentgridUser();
         
