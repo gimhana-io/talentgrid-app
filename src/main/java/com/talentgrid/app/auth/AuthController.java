@@ -1,5 +1,9 @@
 package com.talentgrid.app.auth;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.talentgrid.app.constants.ApplicationConstants;
 import com.talentgrid.app.dto.LoginRequestDto;
 import com.talentgrid.app.dto.LoginResponseDto;
 import com.talentgrid.app.dto.RegisterRequestDto;
 import com.talentgrid.app.dto.UserDto;
+import com.talentgrid.app.entity.Role;
 import com.talentgrid.app.entity.TalentGridUser;
 import com.talentgrid.app.repository.RoleRepository;
 import com.talentgrid.app.repository.TalentGridUserRepository;
@@ -69,14 +75,32 @@ public class AuthController {
 
 
     @PostMapping(value="/register/public", version="1.0")
-    public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDto registerRequestDto){
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequestDto registerRequestDto){
+
+        Optional<TalentGridUser> existingTalentGridUser = talentGridUserRepository.readUserByEmailOrMobileNumber(registerRequestDto.email(), registerRequestDto.mobileNumber());
+
+        if (existingTalentGridUser.isPresent()) {
+            Map<String, String> errors = new HashMap<>();
+            TalentGridUser jobPortalUser = existingTalentGridUser.get();
+            if (jobPortalUser.getEmail().equalsIgnoreCase(registerRequestDto.email())) {
+                errors.put("email", "Email is already registered");
+            }
+            if (jobPortalUser.getMobileNumber().equals(registerRequestDto.mobileNumber())) {
+                errors.put("mobileNumber", "Mobile number is already registered");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
 
         TalentGridUser talentGridUser = new TalentGridUser();
         
         BeanUtils.copyProperties(registerRequestDto, talentGridUser);
         
         talentGridUser.setPasswordHash(passwordEncoder.encode(registerRequestDto.password()));
-        roleRepository.findById(1L).ifPresent(talentGridUser::setRole);
+
+        Role role = roleRepository.findRoleByName(ApplicationConstants.ROLE_JOB_SEEKER).orElseThrow(() -> new IllegalArgumentException("Role not found: " + ApplicationConstants.ROLE_JOB_SEEKER));
+
+        talentGridUser.setRole(role);
+
         talentGridUserRepository.save(talentGridUser);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
