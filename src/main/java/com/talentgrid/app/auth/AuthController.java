@@ -25,9 +25,9 @@ import com.talentgrid.app.dto.LoginResponseDto;
 import com.talentgrid.app.dto.RegisterRequestDto;
 import com.talentgrid.app.dto.UserDto;
 import com.talentgrid.app.entity.Role;
-import com.talentgrid.app.entity.TalentGridUser;
+import com.talentgrid.app.entity.TalentgridUser;
 import com.talentgrid.app.repository.RoleRepository;
-import com.talentgrid.app.repository.TalentGridUserRepository;
+import com.talentgrid.app.repository.TalentgridUserRepository;
 import com.talentgrid.app.security.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
-    private final TalentGridUserRepository talentGridUserRepository;
+    private final TalentgridUserRepository talentGridUserRepository;
     private final RoleRepository roleRepository;
     private final CompromisedPasswordChecker compromisedPasswordChecker;
 
@@ -89,11 +89,11 @@ public class AuthController {
         }
 
 
-        Optional<TalentGridUser> existingTalentGridUser = talentGridUserRepository.readUserByEmailOrMobileNumber(registerRequestDto.email(), registerRequestDto.mobileNumber());
+        Optional<TalentgridUser> existingTalentGridUser = talentGridUserRepository.readUserByEmailOrMobileNumber(registerRequestDto.email(), registerRequestDto.mobileNumber());
 
         if (existingTalentGridUser.isPresent()) {
             Map<String, String> errors = new HashMap<>();
-            TalentGridUser jobPortalUser = existingTalentGridUser.get();
+            TalentgridUser jobPortalUser = existingTalentGridUser.get();
             if (jobPortalUser.getEmail().equalsIgnoreCase(registerRequestDto.email())) {
                 errors.put("email", "Email is already registered");
             }
@@ -103,7 +103,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
         }
 
-        TalentGridUser talentGridUser = new TalentGridUser();
+        TalentgridUser talentGridUser = new TalentgridUser();
         
         BeanUtils.copyProperties(registerRequestDto, talentGridUser);
         
