@@ -1,7 +1,5 @@
 package com.talentgrid.app.security;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -58,7 +56,7 @@ public class TalentgridSecurityConfig {
         })
         .addFilterBefore(new JwtTokenValidatorFilter(publicPaths), BasicAuthenticationFilter.class)
         .formLogin((flc) -> flc.disable())
-        .httpBasic(withDefaults())
+        .httpBasic(hbc -> hbc.disable())
         .build();
     }
 
