@@ -1,10 +1,15 @@
 package com.talentgrid.app.contact.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import com.talentgrid.app.constants.ApplicationConstants;
 import com.talentgrid.app.contact.service.IContactService;
 import com.talentgrid.app.dto.ContactRequestDto;
+import com.talentgrid.app.dto.ContactResponseDto;
 import com.talentgrid.app.entity.Contact;
 import com.talentgrid.app.repository.ContactRepository;
 
@@ -31,12 +36,35 @@ public class ContactServiceImpl implements IContactService {
         Contact contact = new Contact();
         BeanUtils.copyProperties(contactRequestDto, contact);
 
-        // contact.setCreatedAt(Instant.now());
-        // contact.setCreatedBy("System");
-        
-        contact.setStatus("NEW");
+        contact.setStatus(ApplicationConstants.NEW_MESSAGE);
         
         return contact;
+    }
+
+    @Override
+    public List<ContactResponseDto> fetchNewContactMsgs() {
+    
+        List<Contact> contacts = contactRepository.findContactsByStatus(ApplicationConstants.NEW_MESSAGE);
+
+        List<ContactResponseDto> responseDtos = contacts.stream()
+        .map(this::transformToDto)
+        .collect(Collectors.toList());
+
+        return responseDtos;
+
+    }
+
+     private ContactResponseDto transformToDto(Contact contact) {
+        ContactResponseDto contactResponseDto = new ContactResponseDto(
+            contact.getId(),
+            contact.getName(),
+            contact.getEmail(),
+            contact.getUserType(), 
+            contact.getSubject(),
+            contact.getMessage(), 
+            contact.getStatus(), 
+            contact.getCreatedAt());
+        return contactResponseDto;
     }
 
 }

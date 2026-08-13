@@ -39,6 +39,9 @@ public class TalentgridSecurityConfig {
     @Qualifier("securedPaths")
     private final List<String> securedPaths;
 
+    @Qualifier("adminPaths")
+    private final List<String> adminPaths;
+
 
     @Bean
     SecurityFilterChain customSecurityfilterChain(HttpSecurity http) 
@@ -51,6 +54,7 @@ public class TalentgridSecurityConfig {
         .authorizeHttpRequests(requests -> 
         {
             publicPaths.forEach(path -> requests.requestMatchers(path).permitAll());
+            adminPaths.forEach(path -> requests.requestMatchers(path).hasRole("ADMIN"));
             securedPaths.forEach(path -> requests.requestMatchers(path).authenticated());
             requests.anyRequest().denyAll();
         })

@@ -1,5 +1,7 @@
 package com.talentgrid.app.contact.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.talentgrid.app.contact.service.IContactService;
 import com.talentgrid.app.dto.ContactRequestDto;
+import com.talentgrid.app.dto.ContactResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -44,4 +47,14 @@ public class ContactController {
      String status){
         return ResponseEntity.ok("These are the contacts with the give status: " + status);
     }
+
+
+    @GetMapping("/admin")
+    public ResponseEntity<List<ContactResponseDto>> fetchNewContactMsgs(){
+        List<ContactResponseDto> contactResponseDtos = contactService.fetchNewContactMsgs();
+        return ResponseEntity.status(HttpStatus.OK).body(contactResponseDtos);
+    }
+    
+  
+
 }

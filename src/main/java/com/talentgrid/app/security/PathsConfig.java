@@ -30,4 +30,11 @@ public class PathsConfig {
                 "/api/**"
         );
     }
+
+    @Bean(name = "adminPaths")
+    public List<String> adminPaths() {
+        return List.of(
+                "/api/contacts/admin"
+        );
+    }
 }
