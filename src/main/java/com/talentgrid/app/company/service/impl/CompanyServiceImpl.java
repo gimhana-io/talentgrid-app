@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.talentgrid.app.company.service.ICompanyService;
+import com.talentgrid.app.constants.ApplicationConstants;
 import com.talentgrid.app.dto.CompanyDto;
 import com.talentgrid.app.dto.JobDto;
 import com.talentgrid.app.entity.Company;
@@ -22,7 +23,7 @@ public class CompanyServiceImpl implements ICompanyService {
 
     @Override
     public List<CompanyDto> getAllCompanies() {
-        List<Company> companies = companyRepository.findAll();
+        List<Company> companies = companyRepository.findAllWithJobsByStatus(ApplicationConstants.ACTIVE_STATUS);
         return companies.stream().map(this::convertCompanyToDto).toList();
     }
 
