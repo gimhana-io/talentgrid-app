@@ -2,6 +2,8 @@ package com.talentgrid.app.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -16,5 +18,7 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
 
     //dynamic sorting
     List<Contact> findContactsByStatus(String status, Sort sort);
+
+    Page<Contact> findContactsByStatus(String status, Pageable sort);
 
 }
