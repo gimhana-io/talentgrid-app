@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.talentgrid.app.constants.ApplicationConstants;
@@ -44,7 +45,7 @@ public class ContactServiceImpl implements IContactService {
     @Override
     public List<ContactResponseDto> fetchNewContactMsgs() {
     
-        List<Contact> contacts = contactRepository.findContactsByStatus(ApplicationConstants.NEW_MESSAGE);
+        List<Contact> contacts = contactRepository.findContactsByStatusOrderByCreatedAtAsc(ApplicationConstants.NEW_MESSAGE);
 
         List<ContactResponseDto> responseDtos = contacts.stream()
         .map(this::transformToDto)
@@ -66,5 +67,19 @@ public class ContactServiceImpl implements IContactService {
             contact.getCreatedAt());
         return contactResponseDto;
     }
+
+     @Override
+     public List<ContactResponseDto> fetchNewContactMsgsWithSort(String sortBy, String sortDir) {
+         // Create Sort object based on sortBy and sortDir parameters
+        Sort sort = sortDir.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+        List<Contact> contacts = contactRepository.findContactsByStatus(
+                ApplicationConstants.NEW_MESSAGE, sort);
+        List<ContactResponseDto> responseDtos = contacts.stream()
+                .map(this::transformToDto)
+                .collect(Collectors.toList());
+        return responseDtos;
+     }
 
 }

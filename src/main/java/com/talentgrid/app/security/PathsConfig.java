@@ -34,7 +34,8 @@ public class PathsConfig {
     @Bean(name = "adminPaths")
     public List<String> adminPaths() {
         return List.of(
-                "/api/contacts/admin"
+                "/api/contacts/admin",
+                "/api/contacts/sort/admin"
         );
     }
 }
