@@ -17,6 +17,7 @@ import com.talentgrid.app.dto.ContactRequestDto;
 import com.talentgrid.app.dto.ContactResponseDto;
 import com.talentgrid.app.entity.Contact;
 import com.talentgrid.app.repository.ContactRepository;
+import com.talentgrid.app.util.ApplicationUtility;
 
 import lombok.RequiredArgsConstructor;
 
@@ -109,15 +110,11 @@ public class ContactServiceImpl implements IContactService {
     @Transactional
     public boolean closeContactMsg(Long id, String status) {
     
-        Contact contact = contactRepository.findById(id).orElse(null);
+        int updatedRows = contactRepository.updateStatusById(status, id, ApplicationUtility
+            .getLoggedInUser()
+        );
         
-        if(contact == null){
-            return false;
-        }else {
-            contact.setStatus(status);
-            contactRepository.save(contact);
-        }
-        return true;
+        return updatedRows > 0;
 
     }
 
