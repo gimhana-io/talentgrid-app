@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.talentgrid.app.constants.ApplicationConstants;
 import com.talentgrid.app.contact.service.IContactService;
@@ -22,11 +23,13 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ContactServiceImpl implements IContactService {
 
     private final ContactRepository contactRepository;
 
     @Override
+    @Transactional
     public boolean saveContact(ContactRequestDto contactRequestDto) {
         boolean result = false;
         Contact contact = contactRepository.save(transformToEntity(contactRequestDto));
@@ -103,6 +106,7 @@ public class ContactServiceImpl implements IContactService {
     }
 
     @Override
+    @Transactional
     public boolean closeContactMsg(Long id, String status) {
     
         Contact contact = contactRepository.findById(id).orElse(null);
