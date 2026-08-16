@@ -102,4 +102,19 @@ public class ContactServiceImpl implements IContactService {
         return responseDtoPage;
     }
 
+    @Override
+    public boolean closeContactMsg(Long id, String status) {
+    
+        Contact contact = contactRepository.findById(id).orElse(null);
+        
+        if(contact == null){
+            return false;
+        }else {
+            contact.setStatus(status);
+            contactRepository.save(contact);
+        }
+        return true;
+
+    }
+
 }

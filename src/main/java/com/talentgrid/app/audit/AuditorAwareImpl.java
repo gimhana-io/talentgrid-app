@@ -5,11 +5,13 @@ import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 
+import com.talentgrid.app.util.ApplicationUtility;
+
 @Component("auditorAwareImpl")
 public class AuditorAwareImpl implements AuditorAware<String> {
 
     @Override
     public Optional<String> getCurrentAuditor() {
-        return Optional.of("Anonymous User");
+        return Optional.of(ApplicationUtility.getLoggedInUser());
     }
 }
