@@ -13,8 +13,8 @@ import com.talentgrid.app.constants.ApplicationConstants;
 import com.talentgrid.app.dto.CompanyDto;
 import com.talentgrid.app.dto.JobDto;
 import com.talentgrid.app.entity.Company;
-import com.talentgrid.app.entity.Job;
 import com.talentgrid.app.repository.CompanyRepository;
+import com.talentgrid.app.util.ApplicationUtility;
 
 import lombok.RequiredArgsConstructor;
 
@@ -67,7 +67,7 @@ public class CompanyServiceImpl implements ICompanyService {
     private CompanyDto convertCompanyToDto(Company company) {
 
         List<JobDto> jobDtos = company.getJobs().stream()
-                .map(this::convertJobToDto)
+                .map(job -> ApplicationUtility.convertJobToDto(job))
                 .collect(Collectors.toList());
 
         return new CompanyDto(
@@ -85,35 +85,6 @@ public class CompanyServiceImpl implements ICompanyService {
                 company.getCreatedAt(),
                 jobDtos
                 
-        );
-    }
-
-     private JobDto convertJobToDto(Job job) {
-        return new JobDto(
-                job.getId(),
-                job.getTitle(),
-                job.getCompany().getId(),
-                job.getCompany().getName(),
-                job.getCompany().getLogo(),
-                job.getLocation(),
-                job.getWorkType(),
-                job.getJobType(),
-                job.getCategory(),
-                job.getExperienceLevel(),
-                job.getSalaryMin(),
-                job.getSalaryMax(),
-                job.getSalaryCurrency(),
-                job.getSalaryPeriod(),
-                job.getDescription(),
-                job.getRequirements(),
-                job.getBenefits(),
-                job.getPostedDate(),
-                job.getApplicationDeadline(),
-                job.getApplicationsCount(),
-                job.getFeatured(),
-                job.getUrgent(),
-                job.getRemote(),
-                job.getStatus()
         );
     }
 
