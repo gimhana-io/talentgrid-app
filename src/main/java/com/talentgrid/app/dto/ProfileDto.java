@@ -1,0 +1,42 @@
+package com.talentgrid.app.dto;
+
+import java.time.Instant;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record ProfileDto(  
+        Long id,
+        Long userId,
+
+        @NotBlank(message = "Job title is required")
+        @Size(max = 255)
+        String jobTitle,
+
+        @NotBlank(message = "Location is required")
+        @Size(max = 255)
+        String location,
+
+        @NotBlank(message = "Experience level is required")
+        @Size(max = 50)
+        String experienceLevel,
+
+        @NotBlank(message = "Professional bio is required")
+        String professionalBio,
+
+        @Size(max = 500)
+        String portfolioWebsite,
+
+        byte[] profilePicture,  
+        String profilePictureName,
+        String profilePictureType,
+
+        byte[] resume,  
+        String resumeName,
+        String resumeType,
+
+        Instant createdAt,
+        Instant updatedAt
+    ) {
+
+}
