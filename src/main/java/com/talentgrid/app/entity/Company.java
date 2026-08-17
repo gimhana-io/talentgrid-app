@@ -11,6 +11,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -20,6 +22,25 @@ import lombok.Setter;
 @Table(name = "COMPANIES")
 @Getter 
 @Setter
+@NamedQueries({
+        @NamedQuery(name = "Company.updateCompanyDetails",
+                query =
+                """
+                        UPDATE Company c SET
+                                                    c.name = :name,
+                                                    c.logo = :logo,
+                                                    c.industry = :industry,
+                                                    c.size = :size,
+                                                    c.rating = :rating,
+                                                    c.locations = :locations,
+                                                    c.founded = :founded,
+                                                    c.description = :description,
+                                                    c.employees = :employees,
+                                                    c.website = :website
+                                                WHERE c.id = :id
+                """
+        )
+})
 public class Company extends BaseEntity {
 
     @Id
