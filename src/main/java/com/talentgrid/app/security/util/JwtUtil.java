@@ -1,6 +1,8 @@
 package com.talentgrid.app.security.util;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
@@ -35,8 +37,20 @@ public class JwtUtil {
     @Value("${jwt.expiration.hours:1}")
     private int jwtExpirationHours;
 
+    @Value("${jwt.prod.expiration.hours:1}")
+    private int jwtProdExpirationHours;
+
     public String generateJwtToken(Authentication authentication){
         String jwtToken;
+
+        int expirationHours = jwtExpirationHours;
+
+        List<String> profiles = Arrays.asList(env.getActiveProfiles());
+
+        if(profiles.contains("prod")){
+                expirationHours = jwtProdExpirationHours;
+        }
+
         String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY,
                 ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
@@ -48,7 +62,7 @@ public class JwtUtil {
                 .claim("roles", authentication.getAuthorities().stream().map(
                         GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
                 .issuedAt(new java.util.Date())
-                .expiration(new java.util.Date((new java.util.Date()).getTime() + jwtExpirationHours * 60 * 60 * 1000))
+                .expiration(new java.util.Date((new java.util.Date()).getTime() + expirationHours * 60 * 60 * 1000))
                 .signWith(secretKey).compact();
         return jwtToken;
     }
