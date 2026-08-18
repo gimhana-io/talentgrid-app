@@ -2,6 +2,8 @@ package com.talentgrid.app.entity;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
@@ -15,7 +17,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,7 +30,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "JOBS")
+@Table(name = "jobs")
 public class Job extends BaseEntity {
 
     @Id
@@ -132,5 +136,11 @@ public class Job extends BaseEntity {
     @ColumnDefault("'ACTIVE'")
     @Column(name = "status", nullable = false, length = 20)
     private String status;
+
+    @ManyToMany(mappedBy = "savedJobs")
+    private Set<TalentgridUser> savedByUsers = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "job")
+    private Set<JobApplication> jobApplications = new LinkedHashSet<>();
 
 }
