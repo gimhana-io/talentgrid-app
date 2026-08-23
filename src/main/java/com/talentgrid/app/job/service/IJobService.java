@@ -2,7 +2,9 @@ package com.talentgrid.app.job.service;
 
 import java.util.List;
 
+import com.talentgrid.app.dto.JobApplicationDto;
 import com.talentgrid.app.dto.JobDto;
+import com.talentgrid.app.dto.UpdateJobApplicationDto;
 
 public interface IJobService {
 
@@ -13,5 +15,11 @@ public interface IJobService {
 
 
     JobDto createJob(JobDto jobDto, String employerEmail);
+
+    
+    List<JobApplicationDto> getApplicationsByJobForEmployer(Long jobId);
+
+    
+    boolean updateJobApplication(UpdateJobApplicationDto updateJobApplicationDto);
 
 }
