@@ -9,6 +9,13 @@ services:
       MYSQL_DATABASE: talentgridapp
     volumes:
       - mysql_data:/var/lib/mysql
+  grafana-lgtm:
+    image: 'grafana/otel-lgtm:latest'
+    ports:
+      - '3000:3000'
+      - '4317:4317'
+      - '4318:4318'
 
 volumes:
   mysql_data:
+

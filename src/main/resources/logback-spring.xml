@@ -18,6 +18,9 @@
         </encoder>
     </appender>
 
+    <appender name="OTEL" class="io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender">
+    </appender>
+
     <!-- ===================== -->
     <!-- Rolling File Appender -->
     <!-- ===================== -->
@@ -49,6 +52,7 @@
     <root level="INFO">
         <appender-ref ref="RollingFile"/>
         <appender-ref ref="Console"/>
+        <appender-ref ref="OTEL"/>
     </root>
 
     <!-- ===================== -->
@@ -59,6 +63,7 @@
             additivity="false">
         <appender-ref ref="RollingFile"/>
         <appender-ref ref="Console"/>
+        <appender-ref ref="OTEL"/>
     </logger>
 
 </configuration>
